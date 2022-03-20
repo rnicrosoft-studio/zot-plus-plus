@@ -70,7 +70,7 @@ Zotero.ZotPlusPlus = new function () {
                 }
                 const item = this.getRow(index).ref
                 if (item.isNote() || item.isAttachment() || (item.isAnnotation != null ? item.isAnnotation() : null)) {
-                    return ''
+                    return original__renderCell.apply(this, arguments)
                 }
                 const tags = Object.keys(specialTagsMapping).map((tagItem) => {
                     for (const iterator of item._tags) {
