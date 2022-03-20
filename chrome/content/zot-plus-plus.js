@@ -1,7 +1,6 @@
 /*
  * @Author       : rnicrosoft
  * @Created      : 2021-09-25 00:44:42
- * @LastEditor   : rnicrosoft
  * 
  * Copyright (c) 2021 rnicrosoft
  * Confidential and proprietary.  All rights reserved.
@@ -48,28 +47,77 @@ Zotero.ZotPlusPlus = new function () {
 
         Zotero.log("Loaded special tags: " + JSON.stringify(specialTagsMapping));
         // ref better-bibtex.ts:264 $patch$ technique
-        var original_getCellText = Zotero.ItemTreeView.prototype.getCellText;
-        Zotero.ItemTreeView.prototype.getCellText = function (row, col) {
-            // row: number
-            // col: object
-            if (col.id !== 'zotero-items-column-extra') {
-                return original_getCellText.apply(this, arguments)
-            }
-            // prepend tags to title column
-            const item = this.getRow(row).ref
-            if (item.isNote() || item.isAttachment() || (item.isAnnotation != null ? item.isAnnotation() : null)) {
-                return ''
-            }
-            const tags = Object.keys(specialTagsMapping).map((tagItem) => {
-                for (const iterator of item._tags) {
-                    if (iterator.tag == tagItem) {
-                        return specialTagsMapping[tagItem]
-                    }
+        if (typeof Zotero.ItemTreeView === 'undefined') { // Zotero 6
+            // import ItemTree from 'zotero/itemTree';
+            const itemTree = require('zotero/itemTree')
+            // var original_getColumns = itemTree.prototype.getColumns;
+            // itemTree.prototype.getColumns = function () {
+            //     const columns = original_getColumns.apply(this, arguments)
+            //     columns.splice(columns.findIndex(column => column.dataKey === 'title') + 1, 0, {
+            //         dataKey: 'zotplusplus-tags',
+            //         label: "Tags",
+            //         flex: '1',
+            //         zoteroPersist: new Set(['width', 'ordinal', 'hidden', 'sortActive', 'sortDirection']),
+            //     })
+            //     return columns
+            // }
+
+            var original__renderCell = itemTree.prototype._renderCell;
+            itemTree.prototype._renderCell = function (index, data, col) {
+                // col: object
+                if (col.dataKey !== 'extra') {
+                    return original__renderCell.apply(this, arguments)
                 }
-                return undefined
-            }).filter(ele => ele)
-            // tags.push(original_getCellText.apply(this, arguments))
-            return tags.join(" ")
+                const item = this.getRow(index).ref
+                if (item.isNote() || item.isAttachment() || (item.isAnnotation != null ? item.isAnnotation() : null)) {
+                    return ''
+                }
+                const tags = Object.keys(specialTagsMapping).map((tagItem) => {
+                    for (const iterator of item._tags) {
+                        if (iterator.tag == tagItem) {
+                            return specialTagsMapping[tagItem]
+                        }
+                    }
+                    return undefined
+                }).filter(ele => ele)
+                // tags.push(original_getCellText.apply(this, arguments))
+                // return tags.join(" ")
+
+                const icon = document.createElementNS('http://www.w3.org/1999/xhtml', 'span')
+                // icon.className = 'icon icon-bg cell-icon'
+                icon.innerText = tags.join(" ")
+
+                const cell = document.createElementNS('http://www.w3.org/1999/xhtml', 'span')
+                cell.className = `cell ${col.className}`
+                cell.append(icon)
+
+                return cell
+            }
+
+        } else { // Zotero 5
+            var original_getCellText = Zotero.ItemTreeView.prototype.getCellText;
+            Zotero.ItemTreeView.prototype.getCellText = function (row, col) {
+                // row: number
+                // col: object
+                if (col.id !== 'zotero-items-column-extra') {
+                    return original_getCellText.apply(this, arguments)
+                }
+                // prepend tags to title column
+                const item = this.getRow(row).ref
+                if (item.isNote() || item.isAttachment() || (item.isAnnotation != null ? item.isAnnotation() : null)) {
+                    return ''
+                }
+                const tags = Object.keys(specialTagsMapping).map((tagItem) => {
+                    for (const iterator of item._tags) {
+                        if (iterator.tag == tagItem) {
+                            return specialTagsMapping[tagItem]
+                        }
+                    }
+                    return undefined
+                }).filter(ele => ele)
+                // tags.push(original_getCellText.apply(this, arguments))
+                return tags.join(" ")
+            }
         }
 
         _initialized = true;
