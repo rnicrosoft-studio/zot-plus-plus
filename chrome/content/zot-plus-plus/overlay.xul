@@ -48,6 +48,20 @@
 		</menu>
 	</menupopup>
 
+    <!-- zot-plus-plus context menus for collections-->	
+	<!-- <menupopup id="zotero-collectionmenu"> -->
+    <!-- </menupopup> -->
+
+    <!-- <treecols id="zotero-items-columns-header">
+        <treecol
+            id="zotero-items-column-zotplusplus-tags"
+            label="Tags"
+            flex="1"
+            insertbefore="zotero-items-column-title"
+            zotero-persist="width ordinal hidden sortActive sortDirection"
+        />
+    </treecols> -->
+
 	<!-- Include the main extension logic -->
 	<script src="chrome://zotero/content/include.js"/>
 	<script src="chrome://zot-plus-plus/content/include.js"/>
