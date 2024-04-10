@@ -26,7 +26,7 @@ Zotero.ZotPlusPlus = new function () {
 
         // returns undefined/null if no matching pref
         var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
-        var tagFilterStringPref = unescape(trim(prefManager.getCharPref("extensions.zotero.zot-plus-plus.tags-string") || ""));
+        var tagFilterStringPref = decodeURIComponent(trim(prefManager.getCharPref("extensions.zotero.zot-plus-plus.tags-string") || ""));
         Zotero.log("tag filter string: " + tagFilterStringPref);
 
         var specialTagsMapping = {};

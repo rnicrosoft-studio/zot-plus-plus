@@ -9,7 +9,7 @@
 if (!Zotero.ZotPlusPlus) {
     var zotplusplusLoader = Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
         .getService(Components.interfaces.mozIJSSubScriptLoader);
-    var scripts = ['zot-plus-plus'];
+    var scripts = ['zot-plus-plus', 'overlay'];
     scripts.forEach(s => zotplusplusLoader.loadSubScript('chrome://zot-plus-plus/content/' + s + '.js'));
 }
 

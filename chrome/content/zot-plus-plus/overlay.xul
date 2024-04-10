@@ -8,42 +8,42 @@
     <!-- zot-plus-plus context menus -->	
 	<menupopup id="zotero-itemmenu">
 		<menuseparator id="id-zot-plus-plus-separator"/>
-        <menuitem id="id-zot-plus-plus-attach-file" label="ZotPP: set tag" tooltiptext="zotfile-attach-file.tooltiptext;"/>
+        <!-- <menuitem id="id-zot-plus-plus-attach-file" label="ZotPP: set tag" tooltiptext="zotfile-attach-file.tooltiptext;"/> -->
  		<menu id="id-zot-plus-plus-set-tags" label="ZotPP: set tags" >
 			<menupopup id="id-zot-plus-plus-menu" >
-                <menuitem label="zotpp_1: ①❶" disabled="true" style="font-size: 100%; background: none; -moz-appearance: none;"/>
-                <menuitem label="zotpp_2: ②❷" disabled="true" style="font-size: 100%; background: none; -moz-appearance: none;"/>
-                <menuitem label="zotpp_3: ③❸" disabled="true" style="font-size: 100%; background: none; -moz-appearance: none;"/>
-                <menuitem label="zotpp_4: ④❹" disabled="true" style="font-size: 100%; background: none; -moz-appearance: none;"/>
-                <menuitem label="zotpp_5: ⑤❺" disabled="true" style="font-size: 100%; background: none; -moz-appearance: none;"/>
-                <menuitem label="zotpp_6: ⑥❻" disabled="true" style="font-size: 100%; background: none; -moz-appearance: none;"/>
-                <menuitem label="zotpp_7: ⑦❼" disabled="true" style="font-size: 100%; background: none; -moz-appearance: none;"/>
-                <menuitem label="zotpp_8: ⑧❽" disabled="true" style="font-size: 100%; background: none; -moz-appearance: none;"/>
-                <menuitem label="zotpp_9: ⑨❾" disabled="true" style="font-size: 100%; background: none; -moz-appearance: none;"/>
-                <menuitem label="zotpp_10: ⑩❿" disabled="true" style="font-size: 100%; background: none; -moz-appearance: none;"/>
+                <menuitem label="zotpp_1: ❶" oncommand="Zotero.ZotPlusPlus.selectedItemsTag('zotpp_1')" disabled="false" style="font-size: 100%; background: none;"/>
+                <menuitem label="zotpp_2: ❷" oncommand="Zotero.ZotPlusPlus.selectedItemsTag('zotpp_2')" disabled="false" style="font-size: 100%; background: none;"/>
+                <menuitem label="zotpp_3: ❸" oncommand="Zotero.ZotPlusPlus.selectedItemsTag('zotpp_3')" disabled="false" style="font-size: 100%; background: none;"/>
+                <menuitem label="zotpp_4: ❹" oncommand="Zotero.ZotPlusPlus.selectedItemsTag('zotpp_4')" disabled="false" style="font-size: 100%; background: none;"/>
+                <menuitem label="zotpp_5: ❺" oncommand="Zotero.ZotPlusPlus.selectedItemsTag('zotpp_5')" disabled="false" style="font-size: 100%; background: none;"/>
+                <menuitem label="zotpp_6: ❻" oncommand="Zotero.ZotPlusPlus.selectedItemsTag('zotpp_6')" disabled="false" style="font-size: 100%; background: none;"/>
+                <menuitem label="zotpp_7: ❼" oncommand="Zotero.ZotPlusPlus.selectedItemsTag('zotpp_7')" disabled="false" style="font-size: 100%; background: none;"/>
+                <menuitem label="zotpp_8: ❽" oncommand="Zotero.ZotPlusPlus.selectedItemsTag('zotpp_8')" disabled="false" style="font-size: 100%; background: none;"/>
+                <menuitem label="zotpp_9: ❾" oncommand="Zotero.ZotPlusPlus.selectedItemsTag('zotpp_9')" disabled="false" style="font-size: 100%; background: none;"/>
+                <menuitem label="zotpp_10: ❿" oncommand="Zotero.ZotPlusPlus.selectedItemsTag('zotpp_10')" disabled="false" style="font-size: 100%; background: none;"/>
 
 		        <menuseparator id="id-zot-plus-plus-separator"/>
-                <menuitem label="zotpp_star_0_5: ☆☆☆☆☆" disabled="true" style="font-size: 100%; background: none; -moz-appearance: none;"/>
-                <menuitem label="zotpp_star_1_5: ★☆☆☆☆" disabled="true" style="font-size: 100%; background: none; -moz-appearance: none;"/>
-                <menuitem label="zotpp_star_2_5: ★★☆☆☆" disabled="true" style="font-size: 100%; background: none; -moz-appearance: none;"/>
-                <menuitem label="zotpp_star_3_5: ★★★☆☆" disabled="true" style="font-size: 100%; background: none; -moz-appearance: none;"/>
-                <menuitem label="zotpp_star_4_5: ★★★★☆" disabled="true" style="font-size: 100%; background: none; -moz-appearance: none;"/>
-                <menuitem label="zotpp_star_5_5: ★★★★★" disabled="true" style="font-size: 100%; background: none; -moz-appearance: none;"/>
+                <menuitem label="zotpp_star_0_5: ☆☆☆☆☆" oncommand="Zotero.ZotPlusPlus.selectedItemsTag('zotpp_star_0_5')" disabled="false" style="font-size: 100%; background: none;"/>
+                <menuitem label="zotpp_star_1_5: ★☆☆☆☆" oncommand="Zotero.ZotPlusPlus.selectedItemsTag('zotpp_star_1_5')" disabled="false" style="font-size: 100%; background: none;"/>
+                <menuitem label="zotpp_star_2_5: ★★☆☆☆" oncommand="Zotero.ZotPlusPlus.selectedItemsTag('zotpp_star_2_5')" disabled="false" style="font-size: 100%; background: none;"/>
+                <menuitem label="zotpp_star_3_5: ★★★☆☆" oncommand="Zotero.ZotPlusPlus.selectedItemsTag('zotpp_star_3_5')" disabled="false" style="font-size: 100%; background: none;"/>
+                <menuitem label="zotpp_star_4_5: ★★★★☆" oncommand="Zotero.ZotPlusPlus.selectedItemsTag('zotpp_star_4_5')" disabled="false" style="font-size: 100%; background: none;"/>
+                <menuitem label="zotpp_star_5_5: ★★★★★" oncommand="Zotero.ZotPlusPlus.selectedItemsTag('zotpp_star_5_5')" disabled="false" style="font-size: 100%; background: none;"/>
 
 		        <menuseparator id="id-zot-plus-plus-separator"/>
-                <menuitem label="zotpp_pinned: 📌" disabled="true" style="font-size: 100%; background: none; -moz-appearance: none;"/>
-                <menuitem label="zotpp_star: ⭐" disabled="true" style="font-size: 100%; background: none; -moz-appearance: none;"/>
-                <menuitem label="zotpp_flag: 🚩" disabled="true" style="font-size: 100%; background: none; -moz-appearance: none;"/>
+                <menuitem label="zotpp_pinned: 📌" oncommand="Zotero.ZotPlusPlus.selectedItemsTag('zotpp_pinned')" disabled="false" style="font-size: 100%; background: none;"/>
+                <menuitem label="zotpp_star: ⭐" oncommand="Zotero.ZotPlusPlus.selectedItemsTag('zotpp_star')" disabled="false" style="font-size: 100%; background: none;"/>
+                <menuitem label="zotpp_flag: 🚩" oncommand="Zotero.ZotPlusPlus.selectedItemsTag('zotpp_flag')" disabled="false" style="font-size: 100%; background: none;"/>
 
 		        <menuseparator id="id-zot-plus-plus-separator"/>
-                <menuitem label="zotpp_fire: 🔥" disabled="true" style="font-size: 100%; background: none; -moz-appearance: none;"/>
-                <menuitem label="zotpp_water: 💧" disabled="true" style="font-size: 100%; background: none; -moz-appearance: none;"/>
-                <menuitem label="zotpp_boom: 💥" disabled="true" style="font-size: 100%; background: none; -moz-appearance: none;"/>
-                <menuitem label="zotpp_check: ✔️" disabled="true" style="font-size: 100%; background: none; -moz-appearance: none;"/>
-                <menuitem label="zotpp_cross: ❌" disabled="true" style="font-size: 100%; background: none; -moz-appearance: none;"/>
-                <menuitem label="zotpp_circ: ⭕" disabled="true" style="font-size: 100%; background: none; -moz-appearance: none;"/>
-                <menuitem label="zotpp_exclamation: ❗" disabled="true" style="font-size: 100%; background: none; -moz-appearance: none;"/>
-                <menuitem label="zotpp_question: ❓" disabled="true" style="font-size: 100%; background: none; -moz-appearance: none;"/>
+                <menuitem label="zotpp_fire: 🔥" oncommand="Zotero.ZotPlusPlus.selectedItemsTag('zotpp_fire')" disabled="false" style="font-size: 100%; background: none;"/>
+                <menuitem label="zotpp_water: 💧" oncommand="Zotero.ZotPlusPlus.selectedItemsTag('zotpp_water')" disabled="false" style="font-size: 100%; background: none;"/>
+                <menuitem label="zotpp_boom: 💥" oncommand="Zotero.ZotPlusPlus.selectedItemsTag('zotpp_boom')" disabled="false" style="font-size: 100%; background: none;"/>
+                <menuitem label="zotpp_check: ✔️" oncommand="Zotero.ZotPlusPlus.selectedItemsTag('zotpp_check')" disabled="false" style="font-size: 100%; background: none;"/>
+                <menuitem label="zotpp_cross: ❌" oncommand="Zotero.ZotPlusPlus.selectedItemsTag('zotpp_cross')" disabled="false" style="font-size: 100%; background: none;"/>
+                <menuitem label="zotpp_circ: ⭕" oncommand="Zotero.ZotPlusPlus.selectedItemsTag('zotpp_circ')" disabled="false" style="font-size: 100%; background: none;"/>
+                <menuitem label="zotpp_exclamation: ❗" oncommand="Zotero.ZotPlusPlus.selectedItemsTag('zotpp_exclamation')" disabled="false" style="font-size: 100%; background: none;"/>
+                <menuitem label="zotpp_question: ❓" oncommand="Zotero.ZotPlusPlus.selectedItemsTag('zotpp_question')" disabled="false" style="font-size: 100%; background: none;"/>
             </menupopup>
 		</menu>
 	</menupopup>

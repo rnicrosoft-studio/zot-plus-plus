@@ -4,4 +4,4 @@ skin	zot-plus-plus	default				chrome/skin/default/zot-plus-plus/
 overlay	chrome://zotero/content/zoteroPane.xul              chrome://zot-plus-plus/content/overlay.xul
 overlay	chrome://zotero/content/preferences/preferences.xul chrome://zot-plus-plus/content/preferences.xul
 
-locale zot-plus-plus zh-CN chrome/locale/zh-CN/zot-plus-plus/
+locale  zot-plus-plus   zh-CN               chrome/locale/zh-CN/zot-plus-plus/

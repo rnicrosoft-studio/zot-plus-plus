@@ -21,16 +21,20 @@
                 <caption label="special tags"/>
                 <hbox>
                     <label>
-                        comma-separated special tags list
+                        special tags list, one per line
                     </label>
-                    <textbox flex="1" preference="stc-tags-string" id="id-stc-tags-string-input" />
+                    <textbox flex="1" id="id-stc-tags-string-input" multiline="true" rows="10"/>
+                </hbox>
+                <hbox>
+                    <label>
+                        encoded
+                    </label>
+                    <textbox flex="1" preference="stc-tags-string" id="id-stc-tags-string-encoded" multiline="true" rows="10"/>
                 </hbox>
                 <description>
                     Put the tags you want to show up in the Special Tags column
-                    here. Separate different tags with a comma, e.g.:
-                    "mrna, zotero, simulated annealing" will extract 3 tags.
-                    Must match *exactly*. If your string has non-ascii characters
-                    you shoud run it through javascript's "escape()" function
+                    here. 
+                    Must match *exactly*.
                 </description>
                 <!-- don't know why this affects the appearance, but it does! Credit Emiliano Heynes / zotero-better-bibtex. -->
                 <label height="20px;" style="margin-bottom: 0px"/>
