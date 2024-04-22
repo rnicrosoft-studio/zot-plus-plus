@@ -42,7 +42,7 @@ After the installation of the plugin, paste this json manually in the preference
     "zotpp_cross": "❌",
     "zotpp_circ": "⭕",
     "zotpp_exclamation": "❗",
-    "zotpp_question": "❓",
+    "zotpp_question": "❓"
 }
 ```
 
