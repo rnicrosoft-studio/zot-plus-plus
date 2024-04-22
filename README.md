@@ -10,8 +10,9 @@ Zotero++ (ZotPP), an enhancement plugin to [Zotero](https://www.zotero.org/).
 > - [ ] Mark items as unread/read in extra columns using defined tags
 
 ## Appendix: Special tags
-```js
-encodeURIComponent(JSON.stringify({
+After the installation of the plugin, paste this json manually in the preference pane to correct the emojis.
+```json
+{
     "zotpp_1": "❶",
     "zotpp_2": "❷",
     "zotpp_3": "❸",
@@ -42,7 +43,7 @@ encodeURIComponent(JSON.stringify({
     "zotpp_circ": "⭕",
     "zotpp_exclamation": "❗",
     "zotpp_question": "❓",
-}));
+}
 ```
 
 ## Appendix: Setting Up a Plugin Development Environment
