@@ -70,6 +70,9 @@ export class BasicExampleFactory {
     Zotero.Notifier.unregisterObserver(notifierID);
   }
 
+  /**
+   * 注册设置页面
+   */
   @example
   static registerPrefs() {
     const prefOptions = {
@@ -84,6 +87,9 @@ export class BasicExampleFactory {
 }
 
 export class KeyExampleFactory {
+  /**
+   * 注册快捷键
+   */
   @example
   static registerShortcuts() {
     // Register an event key for Alt+L
@@ -127,6 +133,9 @@ export class KeyExampleFactory {
 }
 
 export class UIExampleFactory {
+  /**
+   * 注册css样式表
+   */
   @example
   static registerStyleSheet() {
     const styles = ztoolkit.UI.createElement(document, "link", {
@@ -142,6 +151,9 @@ export class UIExampleFactory {
       ?.classList.add("makeItRed");
   }
 
+  /**
+   * 注册条目右键菜单 - 打开 dialog
+   */
   @example
   static registerRightClickMenuItem() {
     const menuIcon = `chrome://${config.addonRef}/content/icons/favicon@0.5x.png`;
@@ -155,6 +167,9 @@ export class UIExampleFactory {
     });
   }
 
+  /**
+   * 注册条目右键菜单 - 打开子菜单
+   */
   @example
   static registerRightClickMenuPopup() {
     ztoolkit.Menu.register(
@@ -177,6 +192,9 @@ export class UIExampleFactory {
     );
   }
 
+  /**
+   * 注册菜单栏（带分隔线）
+   */
   @example
   static registerWindowMenuWithSeparator() {
     ztoolkit.Menu.register("menuFile", {
@@ -190,6 +208,9 @@ export class UIExampleFactory {
     });
   }
 
+  /**
+   * 注册额外的列
+   */
   @example
   static async registerExtraColumn() {
     const field = "test1";
@@ -204,6 +225,9 @@ export class UIExampleFactory {
     });
   }
 
+  /**
+   * 注册自定义显示的额外的列
+   */
   @example
   static async registerExtraColumnWithCustomCell() {
     const field = "test2";
@@ -268,6 +292,9 @@ export class UIExampleFactory {
     );
   }
 
+  /**
+   * 注册条目侧边栏标签页
+   */
   @example
   static registerItemPaneSection() {
     Zotero.ItemPaneManager.registerSection({
@@ -291,6 +318,9 @@ export class UIExampleFactory {
     });
   }
 
+  /**
+   * 注册条目阅读器侧边栏标签页
+   */
   @example
   static async registerReaderItemPaneSection() {
     Zotero.ItemPaneManager.registerSection({
@@ -378,6 +408,9 @@ export class UIExampleFactory {
 }
 
 export class PromptExampleFactory {
+  /**
+   * 注册普通命令行`Shift + P`
+   */
   @example
   static registerNormalCommandExample() {
     ztoolkit.Prompt.register([
@@ -391,6 +424,9 @@ export class PromptExampleFactory {
     ]);
   }
 
+  /**
+   * 注册匿名命令行`Shift + P`
+   */
   @example
   static registerAnonymousCommandExample() {
     ztoolkit.Prompt.register([
@@ -590,6 +626,9 @@ export class PromptExampleFactory {
     ]);
   }
 
+  /**
+   * 注册条件命令行`Shift + P`
+   */
   @example
   static registerConditionalCommandExample() {
     ztoolkit.Prompt.register([
@@ -619,6 +658,9 @@ export class PromptExampleFactory {
 }
 
 export class HelperExampleFactory {
+  /**
+   * 注册 example dialog
+   */
   @example
   static async dialogExample() {
     const dialogData: { [key: string | number]: any } = {
