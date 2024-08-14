@@ -1,20 +1,26 @@
 # Zot Plus Plus
 
+![](addon/chrome/content/icons/favicon.png)
+
 ## Introduction
 Zotero++ (ZotPP), an enhancement plugin to [Zotero](https://www.zotero.org/).
 
-Zotero 7 compatible. (Zotero 6 bootstrap branch archived)
+> Zotero 7 compatible. (Zotero 6 bootstrap branch has archived)
 
+## Screenshots
 ![](doc/menupopups.png)
 
 ## Features
-- [ ] TBD
-> Inspired from [zotero-special-tags-column](https://github.com/whacked/zotero-special-tags-column):
-> - [ ] Rate items with stars in extra columns using defined tags
-> - [ ] Mark items as unread/read in extra columns using defined tags
+- ZotPP tags: (inspired from [zotero-special-tags-column](https://github.com/whacked/zotero-special-tags-column)):
+  - [x] Independent `ZotPP tags` column with configurable emojis.
+  - [x] Right click to add/remove self-defined tags to rate items with stars, mark items as unread/read, indicate feelings for items, etc..
+- [ ] Right click on item to open with selected method. (inspired from [zotero-open-pdf](https://github.com/retorquere/zotero-open-pdf))
+- [ ] Right click on item to auto-rename attachments.
+- [ ] TBD ...
 
-## Appendix: ZotPP tags
-After the installation of the plugin, paste this json manually in the preference pane to correct the emojis.
+## Appendix: Default ZotPP tags
+After the installation of the plugin, this ZotPP tags json map with emojis is the default value in the preference pane.
+Keeping the `zotpp_` prefix in the tag name for identification is highly recommended.
 ```json
 {
     "zotpp_1": "❶",
