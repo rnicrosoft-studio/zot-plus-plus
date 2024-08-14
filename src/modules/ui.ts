@@ -24,11 +24,10 @@ export class UIFactory {
           TagFactory.loadZotPPTags()
         }
         // logger.log(TagFactory.zotPPTagsMapping)
-        let zotPPTagsMapping = TagFactory.zotPPTagsMapping;
-        const tags = Object.keys(zotPPTagsMapping).map((tagItem) => {
+        const tags = Object.keys(TagFactory.zotPPTagsMapping!).map((tagItem) => {
           for (const iterator of item.getTags()) {
             if (iterator.tag == tagItem) {
-              return zotPPTagsMapping[tagItem]
+              return TagFactory.zotPPTagsMapping![tagItem]
             }
           }
           return undefined
@@ -52,10 +51,10 @@ export class UIFactory {
       TagFactory.loadZotPPTags()
     }
 
-    let menupopups = Object.keys(TagFactory.zotPPTagsMapping).map((tagItem) => {
+    let menupopups = Object.keys(TagFactory.zotPPTagsMapping!).map((tagItem) => {
       return <MenuitemOptions>{
         tag: "menuitem",
-        label: `${TagFactory.zotPPTagsMapping[tagItem]} (${tagItem})`,
+        label: `${TagFactory.zotPPTagsMapping![tagItem]} (${tagItem})`,
         //     oncommand: "alert('Hello World! Sub Menuitem.')",
         commandListener: (ev) => {
           logger.trace("tag", tagItem);

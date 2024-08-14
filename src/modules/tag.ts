@@ -9,7 +9,7 @@ export class TagFactory {
   // constructor() {
   //   this.loadZotPPTags()
   // }
-  static zotPPTagsMapping = undefined;
+  static zotPPTagsMapping: (Record<string, string> | undefined) = undefined;
   static loadZotPPTags() {
     var trim = (s: string) => {
       return s.toString().replace(/^\s*/, '').replace(/\s*$/, '')

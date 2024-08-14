@@ -54,7 +54,7 @@ export class Logger {
     }
 
     debug(message: any): void {
-        var { method, filename, line } = this.getStack();
+        var { method, filename, line } = this.getStack()!;
         Zotero.debug(`${this._outPrefix()} [${config.addonName}] ${filename}:${line}@${method}: ${message}`);
     }
 
@@ -68,7 +68,7 @@ export class Logger {
     }
 
     getStack() {
-        var array = new Error().stack.split('\n');
+        var array = new Error().stack!.split('\n');
         var method, filename, line;
         for (let index = 0; index < array.length; index++) {
             const element = array[index];
