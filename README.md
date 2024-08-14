@@ -3,6 +3,9 @@
 ## Introduction
 Zotero++ (ZotPP), an enhancement plugin to [Zotero](https://www.zotero.org/).
 
+![](doc/menupopups.png)
+![](doc/prefpane.png)
+
 ## Features
 - [ ] TBD
 > Inspired from [zotero-special-tags-column](https://github.com/whacked/zotero-special-tags-column):
