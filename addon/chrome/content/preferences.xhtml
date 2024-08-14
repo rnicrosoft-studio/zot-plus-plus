@@ -1,36 +1,48 @@
 <linkset>
   <html:link rel="localization" href="__addonRef__-preferences.ftl" />
+  <html:link rel="stylesheet" type="text/css" href="chrome://__addonRef__/content/preferences.css" />
 </linkset>
-<vbox
-  id="zotero-prefpane-__addonRef__"
-  onload="Zotero.__addonInstance__.hooks.onPrefsEvent('load', {window})"
->
-  <groupbox>
-    <label><html:h2 data-l10n-id="pref-title"></html:h2></label>
-    <checkbox
-      id="zotero-prefpane-__addonRef__-enable"
-      preference="extensions.zotero.__addonRef__.enable"
-      data-l10n-id="pref-enable"
-    />
-    <hbox>
-      <html:label
-        for="zotero-prefpane-__addonRef__-input"
-        data-l10n-id="pref-input"
-      ></html:label>
-      <html:input
-        type="text"
-        id="zotero-prefpane-__addonRef__-input"
-        preference="extensions.zotero.__addonRef__.input"
-      ></html:input>
-    </hbox>
-    <hbox class="virtualized-table-container" flex="1" height="300px">
-      <html:div id="__addonRef__-table-container" />
-    </hbox>
-  </groupbox>
-</vbox>
-<vbox>
-  <html:label
-    data-l10n-id="pref-help"
-    data-l10n-args='{"time": "__buildTime__","name": "__addonName__","version":"__buildVersion__"}'
-  ></html:label>
+<vbox id="zotero-prefpane-__addonRef__" onload="Zotero.__addonInstance__.hooks.onPrefsEvent('load', {window})">
+  <vbox class="main-section">
+    <groupbox>
+      <html:label data-l10n-id="pref-help"
+        data-l10n-args='{"time": "__buildTime__","name": "__addonName__","version":"__buildVersion__"}' />
+      <separator />
+      <label>
+        <html:h2 data-l10n-id="pref-tags-title" />
+      </label>
+      <label data-l10n-id="pref-json-map" />
+      <html:label data-l10n-id="pref-json-map-desc" />
+      <html:textarea preference="__prefsPrefix__.tags-string" id="zotero-prefpane-__addonRef__-id-tags-string-input" />
+      <!-- <hbox class="virtualized-table-container" flex="1" height="300px">
+        <html:div id="__addonRef__-table-container" />
+      </hbox>
+      <separator class="thin" />
+      <hbox>
+        <button disabled="true" id="zotero-prefpane-__addonRef__-tags-edit" label="&zotero.general.edit;"
+          onclick="if (!this.disabled) Zotero_Preferences.Export.showQuickCopySiteEditor(true)" />
+        <spacer flex="1" />
+        <button disabled="true" id="zotero-prefpane-__addonRef__-tags-delete" data-l10n-id="pref-tags-minus"
+          data-l10n-args='{"label":"-"}'
+          onclick="if (!this.disabled) Zotero_Preferences.Export.deleteSelectedQuickCopySite()" />
+        <button data-l10n-id="pref-tags-plus" data-l10n-args='{"label":"+"}' id="zotero-prefpane-__addonRef__-tags-add"
+          onclick="Zotero_Preferences.Export.showQuickCopySiteEditor()"></button>
+      </hbox> -->
+    </groupbox>
+  </vbox>
+  <separator />
+  <vbox>
+    <label>
+      <html:h1 data-l10n-id="pref-advanced" />
+    </label>
+    <groupbox>
+      <!-- <checkbox id="zotero-prefpane-__addonRef__-enable" preference="extensions.zotero.__addonRef__.enable"
+        data-l10n-id="pref-enable" /> -->
+      <hbox align="center">
+        <label data-l10n-id="pref-debug-log-prefix" />
+        <html:input flex="1" preference="extensions.zotero.__addonRef__.log-prefix"
+          id="zotero-prefpane-__addonRef__-log-prefix" multiline="false" />
+      </hbox>
+    </groupbox>
+  </vbox>
 </vbox>

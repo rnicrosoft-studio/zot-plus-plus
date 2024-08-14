@@ -1,23 +1,23 @@
 {
-  "name": "zotero-plugin-template",
-  "version": "2.0.2-beta.3",
-  "description": "Zotero Plugin Template",
+  "name": "zot-plus-plus",
+  "version": "0.2.0",
+  "description": "Zotero++ (ZotPP), an enhancement plugin to [Zotero](https://www.zotero.org/).",
   "config": {
-    "addonName": "Zotero Plugin Template",
-    "addonID": "addontemplate@euclpts.com",
-    "addonRef": "addontemplate",
-    "addonInstance": "AddonTemplate",
-    "prefsPrefix": "extensions.zotero.addontemplate"
+    "addonName": "Zot Plus Plus",
+    "addonID": "zot-plus-plus@rnicrosoft-studio.github.io",
+    "addonRef": "zot-plus-plus",
+    "addonInstance": "ZotPlusPlus",
+    "prefsPrefix": "extensions.zotero.zot-plus-plus"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/windingwind/zotero-plugin-template.git"
+    "url": "git+https://github.com/rnicrosoft-studio/zot-plus-plus.git"
   },
-  "author": "windingwind",
+  "author": "rnicrosoft-studio",
   "bugs": {
-    "url": "https://github.com/windingwind/zotero-plugin-template/issues"
+    "url": "https://github.com/rnicrosoft-studio/zot-plus-plus/issues"
   },
-  "homepage": "https://github.com/windingwind/zotero-plugin-template#readme",
+  "homepage": "https://github.com/rnicrosoft-studio/zot-plus-plus#readme",
   "license": "AGPL-3.0-or-later",
   "scripts": {
     "start": "zotero-plugin serve",
@@ -28,6 +28,7 @@
     "update-deps": "npm update --save"
   },
   "dependencies": {
+    "moment": "^2.30.1",
     "zotero-plugin-toolkit": "^2.3.31"
   },
   "devDependencies": {

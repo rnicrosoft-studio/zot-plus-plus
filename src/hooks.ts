@@ -9,6 +9,11 @@ import { config } from "../package.json";
 import { getString, initLocale } from "./utils/locale";
 import { registerPrefsScripts } from "./modules/preferenceScript";
 import { createZToolkit } from "./utils/ztoolkit";
+import { Logger } from "./utils/logger";
+import { PrefFactory } from "./modules/pref";
+import { UIFactory } from "./modules/ui";
+
+const logger = new Logger();
 
 async function onStartup() {
   await Promise.all([
@@ -19,19 +24,21 @@ async function onStartup() {
 
   initLocale();
 
-  BasicExampleFactory.registerPrefs();
+  // BasicExampleFactory.registerPrefs();
+  PrefFactory.registerPrefs();
 
   BasicExampleFactory.registerNotifier();
 
-  KeyExampleFactory.registerShortcuts();
+  // KeyExampleFactory.registerShortcuts();
 
-  await UIExampleFactory.registerExtraColumn();
+  // await UIExampleFactory.registerExtraColumn();
 
-  await UIExampleFactory.registerExtraColumnWithCustomCell();
+  // await UIExampleFactory.registerExtraColumnWithCustomCell();
+  await UIFactory.registerExtraColumn();
 
-  UIExampleFactory.registerItemPaneSection();
+  // UIExampleFactory.registerItemPaneSection();
 
-  UIExampleFactory.registerReaderItemPaneSection();
+  // UIExampleFactory.registerReaderItemPaneSection();
 
   await onMainWindowLoad(window);
 }
@@ -39,6 +46,7 @@ async function onStartup() {
 async function onMainWindowLoad(win: Window): Promise<void> {
   // Create ztoolkit for every window
   addon.data.ztoolkit = createZToolkit();
+  logger.log("onMainWindowLoad");
 
   // @ts-ignore This is a moz feature
   window.MozXULElement.insertFTLIfNeeded(`${config.addonRef}-mainWindow.ftl`);
@@ -60,21 +68,22 @@ async function onMainWindowLoad(win: Window): Promise<void> {
     text: `[30%] ${getString("startup-begin")}`,
   });
 
-  UIExampleFactory.registerStyleSheet();
+  // UIExampleFactory.registerStyleSheet();
 
-  UIExampleFactory.registerRightClickMenuItem();
+  // UIExampleFactory.registerRightClickMenuItem();
 
-  UIExampleFactory.registerRightClickMenuPopup();
+  // UIExampleFactory.registerRightClickMenuPopup();
+  UIFactory.registerRightClickMenuPopup();
 
-  UIExampleFactory.registerWindowMenuWithSeparator();
+  // UIExampleFactory.registerWindowMenuWithSeparator();
 
   await UIExampleFactory.registerCustomItemBoxRow();
 
-  PromptExampleFactory.registerNormalCommandExample();
+  // PromptExampleFactory.registerNormalCommandExample();
 
-  PromptExampleFactory.registerAnonymousCommandExample();
+  // PromptExampleFactory.registerAnonymousCommandExample();
 
-  PromptExampleFactory.registerConditionalCommandExample();
+  // PromptExampleFactory.registerConditionalCommandExample();
 
   await Zotero.Promise.delay(1000);
 
@@ -84,7 +93,7 @@ async function onMainWindowLoad(win: Window): Promise<void> {
   });
   popupWin.startCloseTimer(5000);
 
-  addon.hooks.onDialogEvents("dialogExample");
+  // addon.hooks.onDialogEvents("dialogExample");
 }
 
 async function onMainWindowUnload(win: Window): Promise<void> {
@@ -93,8 +102,9 @@ async function onMainWindowUnload(win: Window): Promise<void> {
 }
 
 function onShutdown(): void {
-  ztoolkit.unregisterAll();
-  addon.data.dialog?.window?.close();
+  // ztoolkit.unregisterAll();
+  // addon.data.dialog?.window?.close();
+  onMainWindowUnload(window);
   // Remove addon object
   addon.data.alive = false;
   delete Zotero[config.addonInstance];
@@ -132,7 +142,7 @@ async function onNotify(
 async function onPrefsEvent(type: string, data: { [key: string]: any }) {
   switch (type) {
     case "load":
-      registerPrefsScripts(data.window);
+      // registerPrefsScripts(data.window);
       break;
     default:
       return;

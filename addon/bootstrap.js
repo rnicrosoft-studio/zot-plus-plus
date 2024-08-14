@@ -9,10 +9,24 @@
 
 var chromeHandle;
 
-function install(data, reason) {}
+function log(msg) {
+  Zotero.log("[Zot Plus Plus] " + msg);
+}
+
+function install(data, reason) {
+  log("[bootstrap] Installed");
+}
+
+function uninstall(data, reason) {
+  log("[bootstrap] Uninstalled");
+}
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
 async function startup({ id, version, resourceURI, rootURI }, reason) {
   await Zotero.initializationPromise;
+
+  log("[bootstrap] Starting");
 
   // String 'rootURI' introduced in Zotero 7
   if (!rootURI) {
@@ -54,6 +68,8 @@ async function onMainWindowUnload({ window }, reason) {
 }
 
 function shutdown({ id, version, resourceURI, rootURI }, reason) {
+  log("[bootstrap] Shutting down");
+
   if (reason === APP_SHUTDOWN) {
     return;
   }
@@ -76,5 +92,3 @@ function shutdown({ id, version, resourceURI, rootURI }, reason) {
     chromeHandle = null;
   }
 }
-
-function uninstall(data, reason) {}
