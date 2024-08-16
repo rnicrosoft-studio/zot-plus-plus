@@ -34,7 +34,7 @@ async function onStartup() {
   // await UIExampleFactory.registerExtraColumn();
 
   // await UIExampleFactory.registerExtraColumnWithCustomCell();
-  await UIFactory.registerExtraColumn();
+  await UIFactory.registerZotPPTagsColumn();
 
   // UIExampleFactory.registerItemPaneSection();
 
@@ -71,9 +71,10 @@ async function onMainWindowLoad(win: Window): Promise<void> {
   // UIExampleFactory.registerStyleSheet();
 
   // UIExampleFactory.registerRightClickMenuItem();
+  UIFactory.registerOpenAttachmentRightClickMenuItem();
 
   // UIExampleFactory.registerRightClickMenuPopup();
-  UIFactory.registerRightClickMenuPopup();
+  UIFactory.registerSetZotPPTagsRightClickMenuPopup();
 
   // UIExampleFactory.registerWindowMenuWithSeparator();
 

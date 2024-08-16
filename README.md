@@ -8,13 +8,22 @@ Zotero++ (ZotPP), an enhancement plugin to [Zotero](https://www.zotero.org/).
 > Zotero 7 compatible. (Zotero 6 bootstrap branch has archived)
 
 ## Screenshots
-![](doc/menupopups.png)
+<details>
+  <summary>ZotPP tags</summary>
+  <!-- ![menupopups](doc/menupopups.png) -->
+  <img src="doc/menupopups.png" />
+</details>
+<details>
+  <summary>open attachment in other methods</summary>
+  <!-- ![open attachment in](doc/open-in.png) -->
+  <img src="doc/open-in.png" />
+</details>
 
 ## Features
 - ZotPP tags: (inspired from [zotero-special-tags-column](https://github.com/whacked/zotero-special-tags-column)):
   - [x] Independent `ZotPP tags` column with configurable emojis.
   - [x] Right click to add/remove self-defined tags to rate items with stars, mark items as unread/read, indicate feelings for items, etc..
-- [ ] Right click on item to open with selected method. (inspired from [zotero-open-pdf](https://github.com/retorquere/zotero-open-pdf))
+- [x] Right click on item to open with selected method that other than the default method in the preference pane. (inspired from [zotero-open-pdf](https://github.com/retorquere/zotero-open-pdf))
 - [ ] Right click on item to auto-rename attachments.
 - [ ] TBD ...
 
