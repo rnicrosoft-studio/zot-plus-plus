@@ -40,7 +40,9 @@ async function onStartup() {
 
   // UIExampleFactory.registerReaderItemPaneSection();
 
-  await onMainWindowLoad(window);
+  await Promise.all(
+    Zotero.getMainWindows().map((win) => onMainWindowLoad(win)),
+  );
 }
 
 async function onMainWindowLoad(win: Window): Promise<void> {
@@ -49,7 +51,7 @@ async function onMainWindowLoad(win: Window): Promise<void> {
   logger.log("onMainWindowLoad");
 
   // @ts-ignore This is a moz feature
-  window.MozXULElement.insertFTLIfNeeded(`${config.addonRef}-mainWindow.ftl`);
+  win.MozXULElement.insertFTLIfNeeded(`${config.addonRef}-mainWindow.ftl`);
 
   const popupWin = new ztoolkit.ProgressWindow(config.addonName, {
     closeOnClick: true,
@@ -68,21 +70,19 @@ async function onMainWindowLoad(win: Window): Promise<void> {
     text: `[30%] ${getString("startup-begin")}`,
   });
 
-  // UIExampleFactory.registerStyleSheet();
+  // UIExampleFactory.registerStyleSheet(win);
 
   // UIExampleFactory.registerRightClickMenuItem();
   UIFactory.registerOpenAttachmentRightClickMenuItem();
 
-  // UIExampleFactory.registerRightClickMenuPopup();
+  // UIExampleFactory.registerRightClickMenuPopup(win);
   UIFactory.registerSetZotPPTagsRightClickMenuPopup();
 
   // UIExampleFactory.registerWindowMenuWithSeparator();
 
-  await UIExampleFactory.registerCustomItemBoxRow();
-
   // PromptExampleFactory.registerNormalCommandExample();
 
-  // PromptExampleFactory.registerAnonymousCommandExample();
+  // PromptExampleFactory.registerAnonymousCommandExample(win);
 
   // PromptExampleFactory.registerConditionalCommandExample();
 

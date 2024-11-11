@@ -44,14 +44,11 @@ export class BasicExampleFactory {
       "file",
     ]);
 
-    // Unregister callback when the window closes (important to avoid a memory leak)
-    window.addEventListener(
-      "unload",
-      (e: Event) => {
+    Zotero.Plugins.addObserver({
+      shutdown: ({ id: pluginID }) => {
         this.unregisterNotifier(notifierID);
       },
-      false,
-    );
+    });
   }
 
   @example
@@ -75,14 +72,12 @@ export class BasicExampleFactory {
    */
   @example
   static registerPrefs() {
-    const prefOptions = {
+    Zotero.PreferencePanes.register({
       pluginID: config.addonID,
       src: rootURI + "chrome/content/preferences.xhtml",
       label: getString("prefs-title"),
       image: `chrome://${config.addonRef}/content/icons/favicon.png`,
-      defaultXUL: true,
-    };
-    ztoolkit.PreferencePane.register(prefOptions);
+    });
   }
 }
 
@@ -137,18 +132,17 @@ export class UIExampleFactory {
    * 注册css样式表
    */
   @example
-  static registerStyleSheet() {
-    const styles = ztoolkit.UI.createElement(document, "link", {
+  static registerStyleSheet(win: Window) {
+    const doc = win.document;
+    const styles = ztoolkit.UI.createElement(doc, "link", {
       properties: {
         type: "text/css",
         rel: "stylesheet",
         href: `chrome://${config.addonRef}/content/zoteroPane.css`,
       },
     });
-    document.documentElement.appendChild(styles);
-    document
-      .getElementById("zotero-item-pane-content")
-      ?.classList.add("makeItRed");
+    doc.documentElement.appendChild(styles);
+    doc.getElementById("zotero-item-pane-content")?.classList.add("makeItRed");
   }
 
   /**
@@ -171,7 +165,7 @@ export class UIExampleFactory {
    * 注册条目右键菜单 - 打开子菜单
    */
   @example
-  static registerRightClickMenuPopup() {
+  static registerRightClickMenuPopup(win: Window) {
     ztoolkit.Menu.register(
       "item",
       {
@@ -186,7 +180,7 @@ export class UIExampleFactory {
         ],
       },
       "before",
-      document.querySelector(
+      win.document.querySelector(
         "#zotero-itemmenu-addontemplate-test",
       ) as XUL.MenuItem,
     );
@@ -240,7 +234,7 @@ export class UIExampleFactory {
       },
       renderCell(index, data, column) {
         ztoolkit.log("Custom column cell is rendered!");
-        const span = document.createElementNS(
+        const span = Zotero.getMainWindow().document.createElementNS(
           "http://www.w3.org/1999/xhtml",
           "span",
         );
@@ -250,46 +244,6 @@ export class UIExampleFactory {
         return span;
       },
     });
-  }
-
-  @example
-  static async registerCustomItemBoxRow() {
-    await ztoolkit.ItemBox.register(
-      "itemBoxFieldEditable",
-      "Editable Custom Field",
-      (field, unformatted, includeBaseMapped, item, original) => {
-        return (
-          ztoolkit.ExtraField.getExtraField(item, "itemBoxFieldEditable") || ""
-        );
-      },
-      {
-        editable: true,
-        setFieldHook: (field, value, loadIn, item, original) => {
-          window.alert("Custom itemBox value is changed and saved to extra!");
-          ztoolkit.ExtraField.setExtraField(
-            item,
-            "itemBoxFieldEditable",
-            value,
-          );
-          return true;
-        },
-        index: 1,
-      },
-    );
-
-    await ztoolkit.ItemBox.register(
-      "itemBoxFieldNonEditable",
-      "Non-Editable Custom Field",
-      (field, unformatted, includeBaseMapped, item, original) => {
-        return (
-          "[CANNOT EDIT THIS]" + (item.getField("title") as string).slice(0, 10)
-        );
-      },
-      {
-        editable: false,
-        index: 2,
-      },
-    );
   }
 
   /**
@@ -428,7 +382,7 @@ export class PromptExampleFactory {
    * 注册匿名命令行`Shift + P`
    */
   @example
-  static registerAnonymousCommandExample() {
+  static registerAnonymousCommandExample(window: Window) {
     ztoolkit.Prompt.register([
       {
         id: "search",
@@ -484,7 +438,8 @@ export class PromptExampleFactory {
               if (i != 0) str += ", ";
 
               if (typeof node === "object") {
-                const label = document.createElement("label");
+                const label =
+                  Zotero.getMainWindow().document.createElement("label");
                 label.setAttribute("value", str);
                 label.setAttribute("crop", "end");
                 str = "";
@@ -492,7 +447,7 @@ export class PromptExampleFactory {
                 str += node;
               }
             }
-            str.length && (str += ".");
+            if (str.length) str += ".";
             return str;
           }
           function filter(ids: number[]) {
@@ -563,7 +518,7 @@ export class PromptExampleFactory {
             ids.forEach((id: number) => {
               const item = Zotero.Items.get(id);
               const title = item.getField("title");
-              const ele = ztoolkit.UI.createElement(document, "div", {
+              const ele = ztoolkit.UI.createElement(window.document, "div", {
                 namespace: "html",
                 classList: ["command"],
                 listeners: [
@@ -578,8 +533,8 @@ export class PromptExampleFactory {
                     type: "click",
                     listener: () => {
                       prompt.promptNode.style.display = "none";
-                      Zotero_Tabs.select("zotero-pane");
-                      ZoteroPane.selectItem(item.id);
+                      ztoolkit.getGlobal("Zotero_Tabs").select("zotero-pane");
+                      ztoolkit.getGlobal("ZoteroPane").selectItem(item.id);
                     },
                   },
                 ],
@@ -637,12 +592,12 @@ export class PromptExampleFactory {
         label: "Plugin Template",
         // The when function is executed when Prompt UI is woken up by `Shift + P`, and this command does not display when false is returned.
         when: () => {
-          const items = ZoteroPane.getSelectedItems();
+          const items = ztoolkit.getGlobal("ZoteroPane").getSelectedItems();
           return items.length > 0;
         },
         callback(prompt) {
           prompt.inputNode.placeholder = "Hello World!";
-          const items = ZoteroPane.getSelectedItems();
+          const items = ztoolkit.getGlobal("ZoteroPane").getSelectedItems();
           ztoolkit.getGlobal("alert")(
             `You select ${items.length} items!\n\n${items
               .map(
@@ -882,7 +837,7 @@ export class HelperExampleFactory {
     addon.data.dialog = dialogHelper;
     await dialogData.unloadLock.promise;
     addon.data.dialog = undefined;
-    addon.data.alive &&
+    if (addon.data.alive)
       ztoolkit.getGlobal("alert")(
         `Close dialog with ${dialogData._lastButtonId}.\nCheckbox: ${dialogData.checkboxValue}\nInput: ${dialogData.inputValue}.`,
       );
