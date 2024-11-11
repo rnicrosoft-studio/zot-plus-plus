@@ -17,7 +17,7 @@ export class UIFactory {
       dataKey: field,
       label: getString("column-zotpp-tags"),//"ZotPP tags",
       dataProvider: (item: Zotero.Item, dataKey: string) => {
-        if (item.isNote() || item.isAttachment() || (item.isAnnotation != null ? item.isAnnotation() : null)) {
+        if (!item.isRegularItem()) {
           return "";
         }
         if (TagFactory.zotPPTagsMapping === undefined) {
