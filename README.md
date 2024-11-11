@@ -5,6 +5,7 @@
 ## Introduction
 Zotero++ (ZotPP), an enhancement plugin to [Zotero](https://www.zotero.org/).
 
+> [!NOTE]
 > Zotero 7 compatible. (Zotero 6 bootstrap branch has archived)
 
 ## Screenshots
@@ -29,7 +30,10 @@ Zotero++ (ZotPP), an enhancement plugin to [Zotero](https://www.zotero.org/).
 
 ## Appendix: Default ZotPP tags
 After the installation of the plugin, this ZotPP tags json map with emojis is the default value in the preference pane.
-Keeping the `zotpp_` prefix in the tag name for identification is highly recommended.
+
+> [!TIP]
+> Keeping the `zotpp_` prefix in the tag name for identification is highly recommended.
+
 ```json
 {
     "zotpp_1": "❶",
