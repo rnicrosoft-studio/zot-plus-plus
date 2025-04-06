@@ -1,6 +1,6 @@
 {
   "name": "zot-plus-plus",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Zotero++ (ZotPP), an enhancement plugin to [Zotero](https://www.zotero.org/).",
   "config": {
     "addonName": "Zot Plus Plus",
