@@ -9,19 +9,22 @@ export class TagFactory {
   // constructor() {
   //   this.loadZotPPTags()
   // }
-  static zotPPTagsMapping: (Record<string, string> | undefined) = undefined;
+  static zotPPTagsMapping: Record<string, string> | undefined = undefined;
   static loadZotPPTags() {
-    var trim = (s: string) => {
-      return s.toString().replace(/^\s*/, '').replace(/\s*$/, '')
-    }
+    const trim = (s: string) => {
+      return s.toString().replace(/^\s*/, "").replace(/\s*$/, "");
+    };
 
-    var tagFilterStringPref = trim(get('tags-string', true) || "");
+    const tagFilterStringPref = trim(get("tags-string", true) || "");
     logger.log("tag filter string: " + tagFilterStringPref);
 
-    var zotPPTagsMapping = {};
-    if (tagFilterStringPref.startsWith("{") && tagFilterStringPref.endsWith("}")) {
-      logger.log("parsing settings as JSON")
-      zotPPTagsMapping = JSON.parse(tagFilterStringPref)
+    let zotPPTagsMapping = {};
+    if (
+      tagFilterStringPref.startsWith("{") &&
+      tagFilterStringPref.endsWith("}")
+    ) {
+      logger.log("parsing settings as JSON");
+      zotPPTagsMapping = JSON.parse(tagFilterStringPref);
       // } else {
       //     logger.log("parsing settings as comma-delimited string")
       //     var tagFilterStringSplit = tagFilterStringPref.split(",")
@@ -35,25 +38,23 @@ export class TagFactory {
     }
     logger.log("Loaded ZotPP tags: " + JSON.stringify(zotPPTagsMapping));
 
-    TagFactory.zotPPTagsMapping = zotPPTagsMapping
-    return zotPPTagsMapping
+    TagFactory.zotPPTagsMapping = zotPPTagsMapping;
+    return zotPPTagsMapping;
   }
 
-
   static async selectedItemsTag(tag: string, type: number = 0) {
-    let selectedItems = Zotero.getActiveZoteroPane().getSelectedItems();
+    const selectedItems = Zotero.getActiveZoteroPane().getSelectedItems();
     if (selectedItems.length > 0) {
       await Zotero.DB.executeTransaction(async function () {
-        for (let item of selectedItems) {
+        for (const item of selectedItems) {
           if (item.isRegularItem()) {
             if (!item.removeTag(tag)) {
-              item.addTag(tag, type)
+              item.addTag(tag, type);
             }
-            await item.save()
+            await item.save();
           }
         }
       });
     }
   }
-
 }

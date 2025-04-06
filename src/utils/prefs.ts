@@ -1,7 +1,7 @@
 import { config } from "../../package.json";
 import { Logger } from "./logger";
 
-const logger = new Logger()
+const logger = new Logger();
 
 type PluginPrefsMap = _ZoteroTypes.Prefs["PluginPrefsMap"];
 
@@ -17,7 +17,7 @@ export function getPref<K extends keyof PluginPrefsMap>(key: K) {
 }
 
 export function get<K extends keyof PluginPrefsMap>(key: K, def: any) {
-  let val = getPref(key);
+  const val = getPref(key);
   // new Logger().trace(key, val);
   return val !== undefined ? val : def;
 }
@@ -52,9 +52,8 @@ export function clearPref(key: string) {
   return Zotero.Prefs.clear(`${PREFS_PREFIX}.${key}`, true);
 }
 
-
 export function getJson(key: string, def: any = undefined) {
-  let val = Zotero.Prefs.get(`${config.prefsPrefix}.${key}`) as string;
+  const val = Zotero.Prefs.get(`${config.prefsPrefix}.${key}`) as string;
   try {
     return val !== undefined ? JSON.parse(val) : def;
   } catch (e) {
@@ -65,7 +64,7 @@ export function getJson(key: string, def: any = undefined) {
 }
 
 export function getJsonValue(key: string, key2: string, def: any) {
-  let json = getJson(key);
+  const json = getJson(key);
   return json !== undefined && json[key2] ? json[key2] : def;
 }
 

@@ -1,19 +1,31 @@
 <linkset>
   <html:link rel="localization" href="__addonRef__-preferences.ftl" />
-  <html:link rel="stylesheet" type="text/css" href="chrome://__addonRef__/content/preferences.css" />
+  <html:link
+    rel="stylesheet"
+    type="text/css"
+    href="chrome://__addonRef__/content/preferences.css"
+  />
 </linkset>
-<vbox id="zotero-prefpane-__addonRef__" onload="Zotero.__addonInstance__.hooks.onPrefsEvent('load', {window})">
+<vbox
+  id="zotero-prefpane-__addonRef__"
+  onload="Zotero.__addonInstance__.hooks.onPrefsEvent('load', {window})"
+>
   <vbox class="main-section">
     <groupbox>
-      <html:label data-l10n-id="pref-help"
-        data-l10n-args='{"time": "__buildTime__","name": "__addonName__","version":"__buildVersion__"}' />
+      <html:label
+        data-l10n-id="pref-help"
+        data-l10n-args='{"time": "__buildTime__","name": "__addonName__","version":"__buildVersion__"}'
+      />
       <separator />
       <label>
         <html:h2 data-l10n-id="pref-tags-title" />
       </label>
       <label data-l10n-id="pref-json-map" />
       <html:label data-l10n-id="pref-json-map-desc" />
-      <html:textarea preference="__prefsPrefix__.tags-string" id="zotero-prefpane-__addonRef__-id-tags-string-input" />
+      <html:textarea
+        preference="__prefsPrefix__.tags-string"
+        id="zotero-prefpane-__addonRef__-id-tags-string-input"
+      />
       <!-- <hbox class="virtualized-table-container" flex="1" height="300px">
         <html:div id="__addonRef__-table-container" />
       </hbox>
@@ -40,8 +52,12 @@
         data-l10n-id="pref-enable" /> -->
       <hbox align="center">
         <label data-l10n-id="pref-debug-log-prefix" />
-        <html:input flex="1" preference="extensions.zotero.__addonRef__.log-prefix"
-          id="zotero-prefpane-__addonRef__-log-prefix" multiline="false" />
+        <html:input
+          flex="1"
+          preference="extensions.zotero.__addonRef__.log-prefix"
+          id="zotero-prefpane-__addonRef__-log-prefix"
+          multiline="false"
+        />
       </hbox>
     </groupbox>
   </vbox>

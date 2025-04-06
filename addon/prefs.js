@@ -1,9 +1,10 @@
 /* eslint-disable no-undef */
 // pref("__prefsPrefix__.enable", true);
 
-
 pref("__prefsPrefix__.log-prefix", `🔵`);
-pref("__prefsPrefix__.tags-string", `{
+pref(
+  "__prefsPrefix__.tags-string",
+  `{
   "zotpp_1": "❶",
   "zotpp_2": "❷",
   "zotpp_3": "❸",
@@ -34,4 +35,5 @@ pref("__prefsPrefix__.tags-string", `{
   "zotpp_circ": "⭕",
   "zotpp_exclamation": "❗",
   "zotpp_question": "❓"
-}`);
+}`,
+);
