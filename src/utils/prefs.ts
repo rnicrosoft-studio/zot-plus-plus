@@ -1,16 +1,22 @@
 import { config } from "../../package.json";
 import { Logger } from "./logger";
 
+const logger = new Logger()
+
+type PluginPrefsMap = _ZoteroTypes.Prefs["PluginPrefsMap"];
+
+const PREFS_PREFIX = config.prefsPrefix;
+
 /**
  * Get preference value.
  * Wrapper of `Zotero.Prefs.get`.
  * @param key
  */
-export function getPref(key: string) {
-  return Zotero.Prefs.get(`${config.prefsPrefix}.${key}`, true);
+export function getPref<K extends keyof PluginPrefsMap>(key: K) {
+  return Zotero.Prefs.get(`${PREFS_PREFIX}.${key}`, true) as PluginPrefsMap[K];
 }
 
-export function get(key: string, def: any) {
+export function get<K extends keyof PluginPrefsMap>(key: K, def: any) {
   let val = getPref(key);
   // new Logger().trace(key, val);
   return val !== undefined ? val : def;
@@ -22,8 +28,11 @@ export function get(key: string, def: any) {
  * @param key
  * @param value
  */
-export function setPref(key: string, value: string | number | boolean) {
-  return Zotero.Prefs.set(`${config.prefsPrefix}.${key}`, value, true);
+export function setPref<K extends keyof PluginPrefsMap>(
+  key: K,
+  value: PluginPrefsMap[K],
+) {
+  return Zotero.Prefs.set(`${PREFS_PREFIX}.${key}`, value, true);
 }
 
 export function set(key: string, value: any) {
@@ -40,7 +49,7 @@ export function set(key: string, value: any) {
  * @param key
  */
 export function clearPref(key: string) {
-  return Zotero.Prefs.clear(`${config.prefsPrefix}.${key}`, true);
+  return Zotero.Prefs.clear(`${PREFS_PREFIX}.${key}`, true);
 }
 
 
@@ -49,7 +58,8 @@ export function getJson(key: string, def: any = undefined) {
   try {
     return val !== undefined ? JSON.parse(val) : def;
   } catch (e) {
-    Zotero.ZotPlusPlus.Logger.log(e);
+    // Zotero.ZotPlusPlus.Logger.log(e);
+    logger.log(e);
     return def;
   }
 }

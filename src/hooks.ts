@@ -5,7 +5,6 @@ import {
   PromptExampleFactory,
   UIExampleFactory,
 } from "./modules/examples";
-import { config } from "../package.json";
 import { getString, initLocale } from "./utils/locale";
 import { registerPrefsScripts } from "./modules/preferenceScript";
 import { createZToolkit } from "./utils/ztoolkit";
@@ -36,6 +35,8 @@ async function onStartup() {
   // await UIExampleFactory.registerExtraColumnWithCustomCell();
   await UIFactory.registerZotPPTagsColumn();
 
+  // UIExampleFactory.registerItemPaneCustomInfoRow();
+
   // UIExampleFactory.registerItemPaneSection();
 
   // UIExampleFactory.registerReaderItemPaneSection();
@@ -45,15 +46,17 @@ async function onStartup() {
   );
 }
 
-async function onMainWindowLoad(win: Window): Promise<void> {
+async function onMainWindowLoad(win: _ZoteroTypes.MainWindow): Promise<void> {
   // Create ztoolkit for every window
   addon.data.ztoolkit = createZToolkit();
   logger.log("onMainWindowLoad");
 
   // @ts-ignore This is a moz feature
-  win.MozXULElement.insertFTLIfNeeded(`${config.addonRef}-mainWindow.ftl`);
+  win.MozXULElement.insertFTLIfNeeded(
+    `${addon.data.config.addonRef}-mainWindow.ftl`,
+  );
 
-  const popupWin = new ztoolkit.ProgressWindow(config.addonName, {
+  const popupWin = new ztoolkit.ProgressWindow(addon.data.config.addonName, {
     closeOnClick: true,
     closeTime: -1,
   })
@@ -103,12 +106,12 @@ async function onMainWindowUnload(win: Window): Promise<void> {
 }
 
 function onShutdown(): void {
-  // ztoolkit.unregisterAll();
-  // addon.data.dialog?.window?.close();
-  onMainWindowUnload(window);
+  ztoolkit.unregisterAll();
+  addon.data.dialog?.window?.close();
   // Remove addon object
   addon.data.alive = false;
-  delete Zotero[config.addonInstance];
+  // @ts-ignore - Plugin instance is not typed
+  delete Zotero[addon.data.config.addonInstance];
 }
 
 /**

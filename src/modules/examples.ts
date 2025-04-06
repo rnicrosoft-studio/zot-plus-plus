@@ -1,4 +1,3 @@
-import { config } from "../../package.json";
 import { getLocaleID, getString } from "../utils/locale";
 
 function example(
@@ -45,15 +44,16 @@ export class BasicExampleFactory {
     ]);
 
     Zotero.Plugins.addObserver({
-      shutdown: ({ id: pluginID }) => {
-        this.unregisterNotifier(notifierID);
+      shutdown: ({ id }) => {
+        if (id === addon.data.config.addonID)
+          this.unregisterNotifier(notifierID);
       },
     });
   }
 
   @example
   static exampleNotifierCallback() {
-    new ztoolkit.ProgressWindow(config.addonName)
+    new ztoolkit.ProgressWindow(addon.data.config.addonName)
       .createLine({
         text: "Open Tab Detected!",
         type: "success",
@@ -73,10 +73,10 @@ export class BasicExampleFactory {
   @example
   static registerPrefs() {
     Zotero.PreferencePanes.register({
-      pluginID: config.addonID,
-      src: rootURI + "chrome/content/preferences.xhtml",
+      pluginID: addon.data.config.addonID,
+      src: rootURI + "content/preferences.xhtml",
       label: getString("prefs-title"),
-      image: `chrome://${config.addonRef}/content/icons/favicon.png`,
+      image: `chrome://${addon.data.config.addonRef}/content/icons/favicon.png`,
     });
   }
 }
@@ -98,7 +98,7 @@ export class KeyExampleFactory {
       }
     });
 
-    new ztoolkit.ProgressWindow(config.addonName)
+    new ztoolkit.ProgressWindow(addon.data.config.addonName)
       .createLine({
         text: "Example Shortcuts: Alt+L/S/C",
         type: "success",
@@ -108,7 +108,7 @@ export class KeyExampleFactory {
 
   @example
   static exampleShortcutLargerCallback() {
-    new ztoolkit.ProgressWindow(config.addonName)
+    new ztoolkit.ProgressWindow(addon.data.config.addonName)
       .createLine({
         text: "Larger!",
         type: "default",
@@ -118,7 +118,7 @@ export class KeyExampleFactory {
 
   @example
   static exampleShortcutSmallerCallback() {
-    new ztoolkit.ProgressWindow(config.addonName)
+    new ztoolkit.ProgressWindow(addon.data.config.addonName)
       .createLine({
         text: "Smaller!",
         type: "default",
@@ -132,16 +132,16 @@ export class UIExampleFactory {
    * 注册css样式表
    */
   @example
-  static registerStyleSheet(win: Window) {
+  static registerStyleSheet(win: _ZoteroTypes.MainWindow) {
     const doc = win.document;
     const styles = ztoolkit.UI.createElement(doc, "link", {
       properties: {
         type: "text/css",
         rel: "stylesheet",
-        href: `chrome://${config.addonRef}/content/zoteroPane.css`,
+        href: `chrome://${addon.data.config.addonRef}/content/zoteroPane.css`,
       },
     });
-    doc.documentElement.appendChild(styles);
+    doc.documentElement?.appendChild(styles);
     doc.getElementById("zotero-item-pane-content")?.classList.add("makeItRed");
   }
 
@@ -150,7 +150,7 @@ export class UIExampleFactory {
    */
   @example
   static registerRightClickMenuItem() {
-    const menuIcon = `chrome://${config.addonRef}/content/icons/favicon@0.5x.png`;
+    const menuIcon = `chrome://${addon.data.config.addonRef}/content/icons/favicon@0.5x.png`;
     // item menuitem with icon
     ztoolkit.Menu.register("item", {
       tag: "menuitem",
@@ -180,7 +180,7 @@ export class UIExampleFactory {
         ],
       },
       "before",
-      win.document.querySelector(
+      win.document?.querySelector(
         "#zotero-itemmenu-addontemplate-test",
       ) as XUL.MenuItem,
     );
@@ -209,7 +209,7 @@ export class UIExampleFactory {
   static async registerExtraColumn() {
     const field = "test1";
     await Zotero.ItemTreeManager.registerColumns({
-      pluginID: config.addonID,
+      pluginID: addon.data.config.addonID,
       dataKey: field,
       label: "text column",
       dataProvider: (item: Zotero.Item, dataKey: string) => {
@@ -226,18 +226,15 @@ export class UIExampleFactory {
   static async registerExtraColumnWithCustomCell() {
     const field = "test2";
     await Zotero.ItemTreeManager.registerColumns({
-      pluginID: config.addonID,
+      pluginID: addon.data.config.addonID,
       dataKey: field,
       label: "custom column",
       dataProvider: (item: Zotero.Item, dataKey: string) => {
         return field + String(item.id);
       },
-      renderCell(index, data, column) {
+      renderCell(index, data, column, isFirstColumn, doc) {
         ztoolkit.log("Custom column cell is rendered!");
-        const span = Zotero.getMainWindow().document.createElementNS(
-          "http://www.w3.org/1999/xhtml",
-          "span",
-        );
+        const span = doc.createElement("span");
         span.className = `cell ${column.className}`;
         span.style.background = "#0dd068";
         span.innerText = "⭐" + data;
@@ -250,10 +247,29 @@ export class UIExampleFactory {
    * 注册条目侧边栏标签页
    */
   @example
+  static registerItemPaneCustomInfoRow() {
+    Zotero.ItemPaneManager.registerInfoRow({
+      rowID: "example",
+      pluginID: addon.data.config.addonID,
+      editable: true,
+      label: {
+        l10nID: getLocaleID("item-info-row-example-label"),
+      },
+      position: "afterCreators",
+      onGetData: ({ item }) => {
+        return item.getField("title");
+      },
+      onSetData: ({ item, value }) => {
+        item.setField("title", value);
+      },
+    });
+  }
+
+  @example
   static registerItemPaneSection() {
     Zotero.ItemPaneManager.registerSection({
       paneID: "example",
-      pluginID: config.addonID,
+      pluginID: addon.data.config.addonID,
       header: {
         l10nID: getLocaleID("item-section-example1-head-text"),
         icon: "chrome://zotero/skin/16/universal/book.svg",
@@ -279,7 +295,7 @@ export class UIExampleFactory {
   static async registerReaderItemPaneSection() {
     Zotero.ItemPaneManager.registerSection({
       paneID: "reader-example",
-      pluginID: config.addonID,
+      pluginID: addon.data.config.addonID,
       header: {
         l10nID: getLocaleID("item-section-example2-head-text"),
         // Optional
@@ -292,7 +308,8 @@ export class UIExampleFactory {
         icon: "chrome://zotero/skin/20/universal/save.svg",
       },
       // Optional
-      bodyXHTML: '<html:h1 id="test">THIS IS TEST</html:h1>',
+      bodyXHTML:
+        '<html:h1 id="test">THIS IS TEST</html:h1><browser disableglobalhistory="true" remote="true" maychangeremoteness="true" type="content" flex="1" id="browser" style="width: 180%; height: 280px"/>',
       // Optional, Called when the section is first created, must be synchronous
       onInit: ({ item }) => {
         ztoolkit.log("Section init!", item?.id);
@@ -498,12 +515,12 @@ export class PromptExampleFactory {
                 hasValidCondition = true;
                 s.addCondition(
                   "joinMode",
-                  joinMode as Zotero.Search.Operator,
+                  joinMode as _ZoteroTypes.Search.Operator,
                   "",
                 );
                 s.addCondition(
                   conditions[0] as string,
-                  conditions[1] as Zotero.Search.Operator,
+                  conditions[1] as _ZoteroTypes.Search.Operator,
                   conditions[2] as string,
                 );
               }
@@ -518,7 +535,7 @@ export class PromptExampleFactory {
             ids.forEach((id: number) => {
               const item = Zotero.Items.get(id);
               const title = item.getField("title");
-              const ele = ztoolkit.UI.createElement(window.document, "div", {
+              const ele = ztoolkit.UI.createElement(window.document!, "div", {
                 namespace: "html",
                 classList: ["command"],
                 listeners: [
@@ -875,7 +892,7 @@ export class HelperExampleFactory {
 
   @example
   static progressWindowExample() {
-    new ztoolkit.ProgressWindow(config.addonName)
+    new ztoolkit.ProgressWindow(addon.data.config.addonName)
       .createLine({
         text: "ProgressWindow Example!",
         type: "success",

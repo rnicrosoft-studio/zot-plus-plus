@@ -1,4 +1,4 @@
-import { MenuitemOptions } from "zotero-plugin-toolkit/dist/managers/menu";
+import { MenuitemOptions } from "zotero-plugin-toolkit";
 import { config } from "../../package.json";
 import { getLocaleID, getString } from "../utils/locale";
 import { Logger } from "../utils/logger";
