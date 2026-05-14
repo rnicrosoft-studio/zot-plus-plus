@@ -55,6 +55,9 @@ async function onMainWindowLoad(win: _ZoteroTypes.MainWindow): Promise<void> {
   win.MozXULElement.insertFTLIfNeeded(
     `${addon.data.config.addonRef}-mainWindow.ftl`,
   );
+  win.MozXULElement.insertFTLIfNeeded(
+    `${addon.data.config.addonRef}-addon.ftl`,
+  );
 
   const popupWin = new ztoolkit.ProgressWindow(addon.data.config.addonName, {
     closeOnClick: true,

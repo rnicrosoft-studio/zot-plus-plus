@@ -1,4 +1,3 @@
-import { MenuitemOptions } from "zotero-plugin-toolkit";
 import { config } from "../../package.json";
 import { getLocaleID, getString } from "../utils/locale";
 import { Logger } from "../utils/logger";
@@ -44,9 +43,16 @@ export class UIFactory {
    * 注册条目右键菜单 - ZotPP: set tags子菜单
    */
   static registerSetZotPPTagsRightClickMenuPopup() {
-    ztoolkit.Menu.register("item", {
-      tag: "menuseparator",
-    });
+    // Zotero.MenuManager.registerMenu({
+    //   menuID: `${addon.data.config.addonID}-menu-item-set-tag-separator`,
+    //   pluginID: addon.data.config.addonID,
+    //   target: "main/library/item",
+    //   menus: [
+    //     {
+    //       menuType: "separator",
+    //     },
+    //   ],
+    // });
 
     if (TagFactory.zotPPTagsMapping === undefined) {
       TagFactory.loadZotPPTags();
@@ -54,11 +60,13 @@ export class UIFactory {
 
     const menupopups = Object.keys(TagFactory.zotPPTagsMapping!)
       .map((tagItem) => {
-        return <MenuitemOptions>{
-          tag: "menuitem",
-          label: `${TagFactory.zotPPTagsMapping![tagItem]} (${tagItem})`,
-          //     oncommand: "alert('Hello World! Sub Menuitem.')",
-          commandListener: (ev) => {
+        return <_ZoteroTypes.MenuManager.MenuData>{
+          menuType: "menuitem",
+          l10nID: `${config.addonRef}-menupopup-tag-label`,
+          l10nArgs: {
+            label: `${TagFactory.zotPPTagsMapping![tagItem]} (${tagItem})`,
+          },
+          onCommand: (event, context) => {
             logger.trace("tag", tagItem);
             TagFactory.selectedItemsTag(tagItem);
           },
@@ -67,12 +75,18 @@ export class UIFactory {
       .filter((ele) => ele);
     logger.log(menupopups);
 
-    ztoolkit.Menu.register("item", {
-      tag: "menu",
-      id: `zotero-itemmenu-${config.addonRef}-menu`,
-      label: getString("menupopup-set-tags-label"),
-      icon: `chrome://${config.addonRef}/content/icons/favicon.png`,
-      children: menupopups,
+    Zotero.MenuManager.registerMenu({
+      menuID: `${addon.data.config.addonID}-menu-item-set-tag`,
+      pluginID: addon.data.config.addonID,
+      target: "main/library/item",
+      menus: [
+        {
+          menuType: "submenu",
+          l10nID: `${config.addonRef}-menupopup-set-tags-label`,
+          icon: `chrome://${config.addonRef}/content/icons/favicon.png`,
+          menus: menupopups,
+        },
+      ],
     });
   }
 
@@ -82,176 +96,207 @@ export class UIFactory {
   static registerOpenAttachmentRightClickMenuItem() {
     const menuIcon = `chrome://${config.addonRef}/content/icons/favicon.png`;
 
-    ztoolkit.Menu.register("item", {
-      tag: "menuseparator",
-    });
+    // Zotero.MenuManager.registerMenu({
+    //   menuID: `${addon.data.config.addonID}-menu-item-open-attachment-separator`,
+    //   pluginID: addon.data.config.addonID,
+    //   target: "main/library/item",
+    //   menus: [
+    //     {
+    //       menuType: "separator",
+    //     }
+    //   ],
+    // });
 
     // 打开附件到 新标签页
-    ztoolkit.Menu.register("item", {
-      tag: "menuitem",
-      label:
-        getString("menupopup-open-attachment-in-label") +
-        " " +
-        getString("menupopup-tab-label"),
-      icon: menuIcon,
-      getVisibility(elem, ev) {
-        const item = Zotero.getActiveZoteroPane().getSelectedItems()[0];
-        if (item.isRegularItem()) {
-          if (Zotero.Prefs.get("fileHandler.pdf") !== "") {
-            return true;
-          } else {
-            return false;
-          }
-        } else if (item.isAttachment()) {
-          if (
-            (item.isPDFAttachment() &&
-              Zotero.Prefs.get("fileHandler.pdf") !== "") ||
-            (item.attachmentReaderType === "epub" &&
-              Zotero.Prefs.get("fileHandler.epub") !== "") ||
-            (item.attachmentReaderType === "snapshot" &&
-              Zotero.Prefs.get("fileHandler.snapshot") !== "")
-          ) {
-            return true;
-          } else {
-            return false;
-          }
-        } else {
-          return false;
-        }
-      },
-      commandListener: (ev) => {
-        const selectedItems = Zotero.getActiveZoteroPane().getSelectedItems();
-        if (selectedItems.length > 0) {
-          for (const item of selectedItems) {
+    Zotero.MenuManager.registerMenu({
+      menuID: `${addon.data.config.addonID}-menu-item-open-attachment-in-tab-label`,
+      pluginID: addon.data.config.addonID,
+      target: "main/library/item",
+      menus: [
+        {
+          menuType: "menuitem",
+          l10nID: `${config.addonRef}-menupopup-open-attachment-in-tab-label`,
+          icon: menuIcon,
+          onShowing: (event, context) => {
+            const item = Zotero.getActiveZoteroPane().getSelectedItems()[0];
             if (item.isRegularItem()) {
-              item.getBestAttachment().then((bestAttachment) => {
-                if (bestAttachment === false) {
-                  return;
-                }
-                Zotero.Reader.open(bestAttachment.id, undefined, {
-                  openInWindow: false,
-                });
-              });
+              if (Zotero.Prefs.get("fileHandler.pdf") !== "") {
+                context.setVisible(true);
+                return true;
+              } else {
+                context.setVisible(false);
+                return false;
+              }
             } else if (item.isAttachment()) {
-              Zotero.Reader.open(item.id, undefined, { openInWindow: false });
+              if (
+                (item.isPDFAttachment() &&
+                  Zotero.Prefs.get("fileHandler.pdf") !== "") ||
+                (item.attachmentReaderType === "epub" &&
+                  Zotero.Prefs.get("fileHandler.epub") !== "") ||
+                (item.attachmentReaderType === "snapshot" &&
+                  Zotero.Prefs.get("fileHandler.snapshot") !== "")
+              ) {
+                context.setVisible(true);
+                return true;
+              } else {
+                context.setVisible(false);
+                return false;
+              }
+            } else {
+              context.setVisible(false);
+              return false;
             }
-          }
+          },
+          onCommand: (event, context) => {
+            const selectedItems = Zotero.getActiveZoteroPane().getSelectedItems();
+            if (selectedItems.length > 0) {
+              for (const item of selectedItems) {
+                if (item.isRegularItem()) {
+                  item.getBestAttachment().then((bestAttachment) => {
+                    if (bestAttachment === false) {
+                      return;
+                    }
+                    Zotero.Reader.open(bestAttachment.id, undefined, {
+                      openInWindow: false,
+                    });
+                  });
+                } else if (item.isAttachment()) {
+                  Zotero.Reader.open(item.id, undefined, { openInWindow: false });
+                }
+              }
+            }
+          },
         }
-      },
+      ]
     });
 
     // 打开附件到 新窗口
-    ztoolkit.Menu.register(
-      "item",
-      {
-        tag: "menuitem",
-        label:
-          getString("menupopup-open-attachment-in-label") +
-          " " +
-          getString("menupopup-window-label"),
-        icon: menuIcon,
-        getVisibility(elem, ev) {
-          const item = Zotero.getActiveZoteroPane().getSelectedItems()[0];
-          if (item.isRegularItem()) {
-            if (Zotero.Prefs.get("fileHandler.pdf") !== "") {
-              return true;
+    Zotero.MenuManager.registerMenu({
+      menuID: `${addon.data.config.addonID}-menu-item-open-attachment-in-window-label`,
+      pluginID: addon.data.config.addonID,
+      target: "main/library/item",
+      menus: [
+        {
+          menuType: "menuitem",
+          l10nID: `${config.addonRef}-menupopup-open-attachment-in-window-label`,
+          icon: menuIcon,
+          onShowing: (event, context) => {
+            const item = Zotero.getActiveZoteroPane().getSelectedItems()[0];
+            if (item.isRegularItem()) {
+              if (Zotero.Prefs.get("fileHandler.pdf") !== "") {
+                context.setVisible(true);
+                return true;
+              } else {
+                context.setVisible(false);
+                return false;
+              }
+            } else if (item.isAttachment()) {
+              if (
+                (item.isPDFAttachment() &&
+                  Zotero.Prefs.get("fileHandler.pdf") !== "") ||
+                (item.attachmentReaderType === "epub" &&
+                  Zotero.Prefs.get("fileHandler.epub") !== "") ||
+                (item.attachmentReaderType === "snapshot" &&
+                  Zotero.Prefs.get("fileHandler.snapshot") !== "")
+              ) {
+                context.setVisible(true);
+                return true;
+              } else {
+                context.setVisible(false);
+                return false;
+              }
             } else {
+              context.setVisible(false);
               return false;
             }
-          } else if (item.isAttachment()) {
-            if (
-              (item.isPDFAttachment() &&
-                Zotero.Prefs.get("fileHandler.pdf") !== "") ||
-              (item.attachmentReaderType === "epub" &&
-                Zotero.Prefs.get("fileHandler.epub") !== "") ||
-              (item.attachmentReaderType === "snapshot" &&
-                Zotero.Prefs.get("fileHandler.snapshot") !== "")
-            ) {
-              return true;
-            } else {
-              return false;
-            }
-          } else {
-            return false;
-          }
-        },
-        commandListener: (ev) => {
-          const selectedItems = Zotero.getActiveZoteroPane().getSelectedItems();
-          if (selectedItems.length > 0) {
-            for (const item of selectedItems) {
-              if (item.isRegularItem()) {
-                item.getBestAttachment().then((bestAttachment) => {
-                  if (bestAttachment === false) {
-                    return;
-                  }
-                  Zotero.Reader.open(bestAttachment.id, undefined, {
-                    openInWindow: true,
+          },
+          onCommand: (event, context) => {
+            const selectedItems = Zotero.getActiveZoteroPane().getSelectedItems();
+            if (selectedItems.length > 0) {
+              for (const item of selectedItems) {
+                if (item.isRegularItem()) {
+                  item.getBestAttachment().then((bestAttachment) => {
+                    if (bestAttachment === false) {
+                      return;
+                    }
+                    Zotero.Reader.open(bestAttachment.id, undefined, {
+                      openInWindow: true,
+                    });
                   });
-                });
-              } else if (item.isAttachment()) {
-                Zotero.Reader.open(item.id, undefined, { openInWindow: true });
+                } else if (item.isAttachment()) {
+                  Zotero.Reader.open(item.id, undefined, { openInWindow: true });
+                }
               }
             }
-          }
-        },
-      },
+          },
+        }
+      ]
       // "after",
       // document.querySelector(
       //   // `menupopup#zotero-itemmenu > menuitem.zotero-menuitem-view-online`
       //   `menuitem[data-l10n-id="item-menu-viewAttachment"]`
       // ) as XUL.MenuItem,
-    );
+    });
 
     // 打开附件到 系统默认程序
-    ztoolkit.Menu.register("item", {
-      tag: "menuitem",
-      label:
-        getString("menupopup-open-attachment-in-label") +
-        " " +
-        getString("menupopup-system-default-label"),
-      icon: menuIcon,
-      getVisibility(elem, ev) {
-        const item = Zotero.getActiveZoteroPane().getSelectedItems()[0];
-        if (item.isRegularItem()) {
-          if (Zotero.Prefs.get("fileHandler.pdf") !== "system") {
-            return true;
-          } else {
-            return false;
-          }
-        } else if (item.isAttachment()) {
-          if (
-            (item.isPDFAttachment() &&
-              Zotero.Prefs.get("fileHandler.pdf") !== "system") ||
-            (item.attachmentReaderType === "epub" &&
-              Zotero.Prefs.get("fileHandler.epub") !== "system") ||
-            (item.attachmentReaderType === "snapshot" &&
-              Zotero.Prefs.get("fileHandler.snapshot") !== "system")
-          ) {
-            return true;
-          } else {
-            return false;
-          }
-        } else {
-          return false;
-        }
-      },
-      commandListener: (ev) => {
-        const selectedItems = Zotero.getActiveZoteroPane().getSelectedItems();
-        if (selectedItems.length > 0) {
-          for (const item of selectedItems) {
+    Zotero.MenuManager.registerMenu({
+      menuID: `${addon.data.config.addonID}-menu-item-open-attachment-in-system-default-label`,
+      pluginID: addon.data.config.addonID,
+      target: "main/library/item",
+      menus: [
+        {
+          menuType: "menuitem",
+          l10nID: `${config.addonRef}-menupopup-open-attachment-in-system-default-label`,
+          icon: menuIcon,
+          onShowing: (event, context) => {
+            const item = Zotero.getActiveZoteroPane().getSelectedItems()[0];
             if (item.isRegularItem()) {
-              item.getBestAttachment().then((bestAttachment) => {
-                if (bestAttachment === false) {
-                  return;
-                }
-                Zotero.launchFile(bestAttachment.getFilePath() as string);
-              });
+              if (Zotero.Prefs.get("fileHandler.pdf") !== "system") {
+                context.setVisible(true);
+                return true;
+              } else {
+                context.setVisible(false);
+                return false;
+              }
             } else if (item.isAttachment()) {
-              Zotero.launchFile(item.getFilePath() as string);
+              if (
+                (item.isPDFAttachment() &&
+                  Zotero.Prefs.get("fileHandler.pdf") !== "system") ||
+                (item.attachmentReaderType === "epub" &&
+                  Zotero.Prefs.get("fileHandler.epub") !== "system") ||
+                (item.attachmentReaderType === "snapshot" &&
+                  Zotero.Prefs.get("fileHandler.snapshot") !== "system")
+              ) {
+                context.setVisible(true);
+                return true;
+              } else {
+                context.setVisible(false);
+                return false;
+              }
+            } else {
+              context.setVisible(false);
+              return false;
             }
-          }
+          },
+          onCommand: (event, context) => {
+            const selectedItems = Zotero.getActiveZoteroPane().getSelectedItems();
+            if (selectedItems.length > 0) {
+              for (const item of selectedItems) {
+                if (item.isRegularItem()) {
+                  item.getBestAttachment().then((bestAttachment) => {
+                    if (bestAttachment === false) {
+                      return;
+                    }
+                    Zotero.launchFile(bestAttachment.getFilePath() as string);
+                  });
+                } else if (item.isAttachment()) {
+                  Zotero.launchFile(item.getFilePath() as string);
+                }
+              }
+            }
+          },
         }
-      },
+      ]
     });
   }
 }
