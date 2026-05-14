@@ -174,7 +174,6 @@ export class UIExampleFactory {
    */
   @example
   static registerRightClickMenuPopup(win: Window) {
-
     Zotero.MenuManager.registerMenu({
       menuID: "zotero-itemmenu-addontemplate-test-submenu",
       pluginID: addon.data.config.addonID,
@@ -188,7 +187,7 @@ export class UIExampleFactory {
               menuType: "menuitem",
               l10nID: `${addon.data.config.addonRef}-menuitem-submenulabel`,
               onCommand: (event, context) => {
-                ztoolkit.getGlobal("alert")('Hello World! Sub Menuitem.');
+                ztoolkit.getGlobal("alert")("Hello World! Sub Menuitem.");
               },
             },
           ],
@@ -219,7 +218,7 @@ export class UIExampleFactory {
           menuType: "menuitem",
           l10nID: `${addon.data.config.addonRef}-menuitem-filemenulabel`,
           onCommand: (event, context) => {
-            ztoolkit.getGlobal("alert")('Hello World! File Menuitem.');
+            ztoolkit.getGlobal("alert")("Hello World! File Menuitem.");
           },
         },
       ],

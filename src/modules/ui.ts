@@ -148,7 +148,8 @@ export class UIFactory {
             }
           },
           onCommand: (event, context) => {
-            const selectedItems = Zotero.getActiveZoteroPane().getSelectedItems();
+            const selectedItems =
+              Zotero.getActiveZoteroPane().getSelectedItems();
             if (selectedItems.length > 0) {
               for (const item of selectedItems) {
                 if (item.isRegularItem()) {
@@ -161,13 +162,15 @@ export class UIFactory {
                     });
                   });
                 } else if (item.isAttachment()) {
-                  Zotero.Reader.open(item.id, undefined, { openInWindow: false });
+                  Zotero.Reader.open(item.id, undefined, {
+                    openInWindow: false,
+                  });
                 }
               }
             }
           },
-        }
-      ]
+        },
+      ],
     });
 
     // 打开附件到 新窗口
@@ -211,7 +214,8 @@ export class UIFactory {
             }
           },
           onCommand: (event, context) => {
-            const selectedItems = Zotero.getActiveZoteroPane().getSelectedItems();
+            const selectedItems =
+              Zotero.getActiveZoteroPane().getSelectedItems();
             if (selectedItems.length > 0) {
               for (const item of selectedItems) {
                 if (item.isRegularItem()) {
@@ -224,13 +228,15 @@ export class UIFactory {
                     });
                   });
                 } else if (item.isAttachment()) {
-                  Zotero.Reader.open(item.id, undefined, { openInWindow: true });
+                  Zotero.Reader.open(item.id, undefined, {
+                    openInWindow: true,
+                  });
                 }
               }
             }
           },
-        }
-      ]
+        },
+      ],
       // "after",
       // document.querySelector(
       //   // `menupopup#zotero-itemmenu > menuitem.zotero-menuitem-view-online`
@@ -279,7 +285,8 @@ export class UIFactory {
             }
           },
           onCommand: (event, context) => {
-            const selectedItems = Zotero.getActiveZoteroPane().getSelectedItems();
+            const selectedItems =
+              Zotero.getActiveZoteroPane().getSelectedItems();
             if (selectedItems.length > 0) {
               for (const item of selectedItems) {
                 if (item.isRegularItem()) {
@@ -295,8 +302,8 @@ export class UIFactory {
               }
             }
           },
-        }
-      ]
+        },
+      ],
     });
   }
 }
